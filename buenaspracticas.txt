@@ -1,0 +1,77 @@
+1. Estructura del proyecto:
+
+nombre-del-proyecto/
+├── app/                 # Cambiamos 'src' por 'app', es el estándar en FastAPI
+│   ├── __init__.py
+│   ├── main.py          # El archivo que "enciende" la API
+│   ├── api/             # Los "mozos": aquí defines las rutas (endpoints)
+│   │   ├── v1/          # Versión 1 de tu API (importante para la futura App)
+│   │   │   ├── api.py   # Une todas las rutas
+│   │   │   └── endpoints/
+│   │   │       ├── usuarios.py
+│   │   │       └── notas.py
+│   ├── core/            # El "cerebro": Configuración y Seguridad (JWT)
+│   │   ├── config.py    # Lee el archivo .env
+│   │   └── security.py  # Aquí irá la lógica de contraseñas y tokens
+│   ├── models/          # Las "planillas": Estructura de tu Base de Datos
+│   │   └── item.py      # Ej: Cómo se guarda una nota en la DB
+│   ├── schemas/         # Los "contratos": Qué datos entran y salen (Pydantic)
+│   │   └── item.py      # Ej: El usuario envía {titulo, texto}
+│   ├── db/              # Conexión a la Base de Datos
+│   │   ├── session.py   # Configura SQLAlchemy o Tortoise
+│   │   └── base.py      # Importa todos los modelos aquí
+│   └── services/        # La "magia": Lógica que no es ni ruta ni base de datos
+├── tests/               # Pruebas para asegurar que nada se rompa
+├── .env                 # Tus secretos (DB_URL, SECRET_KEY)
+├── .gitignore
+├── requirements.txt     # Tus herramientas (fastapi, uvicorn, sqlalchemy)
+└── README.mded
+
+Cada clase tendrá varios archivos: si haremos una clase 'factura' entonces:
+app/models/factura.py -> se crea la clase que se relaciona con la db
+app/schemas/factura.py -> Pydantic. Se define qué se envia a la web/app.
+y las funciones relacionadas con la clase 'factura':
+app/services/factura_service.py -> Lógica. Se definen las funciones.
+app/api/v1/endpoints/facturas.py -> Rutas.
+
+
+2. Documentación:
+Ademas de la Documentación completa de cada función se hara Type Hinting, tipado dinamico pero explicito:
+Python es un lenguaje dinamico, permite cambiar el tipo de datos de sus variables en tiempo de ejecución.
+Para mayor claridad y seguridad, explicitaré en cada variable el tipo de dato que tendrá siempre.
+Hacer siempre los casos de prueba con uso de pytest.
+
+
+3. Consideraciones de código limpio:
+PEP 8: Es la guía de estilo oficial de Python (nombres de variables en snake_case, clases en PascalCase, espacios, etc.).
+Usar herramientas como Black o Flake8 para automatizar esto.
+
+Ambientes virtuales: no instalar librerias globalmente. Usar venv, poetry o conda.
+
+Loggin, no usamos print sino la libreria logging.
+
+Principios SOLID: una función debe hacer una única cosa y bien hecha.
+
+Manejo de Exepciones: no usar bloques try-except genéricos. Atrapar errores específicos (ValueErrror, ConnectionError, etc) y darles un tto adecuado.
+
+4. Ciclo de Vida del Software:
+CI/CD cada vez que subas el código, se corran los tests y se verifique el formato.
+
+------------------------------------------------------------------------------------------
+Otras consideraciones del proyecto:
+Este proyecto busca, ademas de hacer algo funcional y copado para transmagg, en lo personal,
+el aprendizaje, implementando buenas prácticas aprendidas en LCC, como tambien obteniendo nuevos
+conocimientos relacionados a la programación en Python.
+
+Como es un proyecto web se usará claramente HTML, CSS y JavaScript para el frontend.
+
+Además de cumplir las funciones necesarias para la administración de transmagg, vamos a agregar
+más cosas. En principio las siguientes:
+
+Acceso Empresas, cada empresa que trabaja con Transmagg podrá acceder a la web con datos de acceso
+y consultar sus ultimos viajes realizados por Transmagg y información del mismo viaje.
+Consultar y descargar facturas en PDF, consultar y descargar extractos de su cuenta corriente,
+cargar pagos realizados.
+
+Acceso Fleteros, cada feltero que trabaja con Transmagg
+
